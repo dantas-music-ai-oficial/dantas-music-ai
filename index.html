@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ezequias Dantas - Compositor Digital</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:Arial}
+.hero{position:relative;width:100%;height:100vh;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+.hero video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+.hero-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.2) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:20px}
+.logo{font-size:40px;font-weight:900;color:#ffcc00;text-shadow:2px 2px 10px #000;font-style:italic}
+.sub{letter-spacing:4px;color:#fff;margin-top:5px;font-size:14px}
+.btn-enter{background:#ffcc00;color:#000;padding:16px 40px;border-radius:30px;font-weight:900;border:none;margin-top:25px;font-size:16px}
+.card{background:#151515;padding:16px;border-radius:14px;margin:12px 0;border:2px solid #222}
+input,select{width:100%;padding:14px;border-radius:10px;background:#222;color:#fff;border:1px solid #444;margin:6px 0}
+.btn{width:100%;padding:15px;border-radius:30px;border:none;font-weight:900;font-size:15px;margin-top:8px;cursor:pointer}
+.g{background:#25D366;color:#fff}.y{background:#ffcc00;color:#000}.r{background:#ff0033;color:#fff}.b{background:#1877f2;color:#fff}.p{background:linear-gradient(45deg,#feda75,#d62976,#4f5bd5);color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+</style>
+</head>
+<body>
+
+<div id="telaSenha" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;text-align:center">
+  <h1 style="color:#ffcc00;font-size:32px;margin:0">🔒 EZEQUIAS DANTAS</h1>
+  <p style="color:#fff;margin:5px">Música - Tecnologia - Global</p>
+  <div style="background:#151515;padding:22px;border-radius:15px;border:2px solid #ffcc00;max-width:360px;width:100%;margin-top:20px">
+    <p id="msgSenha" style="color:#aaa;margin-top:0">Digite a senha para abrir</p>
+    <input id="inputSenha" type="password" placeholder="****" style="text-align:center;font-size:24px;letter-spacing:5px;font-weight:900">
+    <button class="btn y" onclick="verificaSenha()">🔓 ABRIR SITE</button>
+    <p style="font-size:12px;color:#666;margin-top:12px">Senha padrão: <b style="color:#ffcc00">1234</b></p>
+    <a href="#" onclick="esqueci();return false" style="color:#666;font-size:12px">Trocar senha</a>
+  </div>
+</div>
+
+<div class="hero">
+  <video id="videoFrente" autoplay muted loop playsinline>
+    <source src="video-frente.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="logo">Ezequias Dantas</div>
+    <div style="color:#ffcc00;font-weight:900;margin-top:5px">Compositor Digital</div>
+    <div class="sub">MÚSICA • TECNOLOGIA • GLOBAL</div>
+    <button class="btn-enter" onclick="document.getElementById('conteudo').scrollIntoView({behavior:'smooth'})">▶️ ENTRAR NO SITE</button>
+    <div style="margin-top:15px"><button onclick="let v=document.getElementById('videoFrente');v.muted=false;v.play()" style="background:rgba(0,0,0,0.6);color:#fff;border:1px solid #fff;padding:8px 15px;border-radius:20px;font-size:12px">🔊 ATIVAR SOM</button></div>
+  </div>
+</div>
+
+<div id="conteudo" style="max-width:750px;margin:auto;padding:10px">
+<div class="card" style="border-color:#25D366"><h3 style="color:#25D366;margin:0">📱 WHATSAPP</h3><input id="n1" placeholder="Nome"><input type="file" id="f1" accept="audio/*,video/*"><button class="btn g" onclick="addDirect()">COLOCAR DIRETO DO ZAP</button></div>
+<div class="card" style="border-color:#ff0000"><h3 style="color:#ff0000;margin:0">▶️ YOUTUBE</h3><input id="n2" placeholder="Nome"><input id="l2" placeholder="Link YouTube"><div class="grid"><button class="btn y" onclick="addYT('mp3')">MP3</button><button class="btn r" onclick="addYT('mp4')">MP4</button></div></div>
+<div class="card" style="border-color:#d62976"><h3 style="color:#ff66cc;margin:0">📸 INSTAGRAM / FACEBOOK</h3><input id="n3" placeholder="Nome"><input id="l3" placeholder="Link"><div class="grid"><button class="btn p" onclick="addInsta()">INSTA</button><button class="btn b" onclick="addFace()">FACE</button></div></div>
+<div class="card" style="border-color:#ffcc00"><h3 style="color:#ffcc00;margin:0">🎙️ FLOW MUSIC</h3><input id="nFlow" placeholder="Nome gravação"><button class="btn y" onclick="startRec()">🔴 GRAVAR</button><button class="btn" style="background:#333;color:#fff" onclick="stopRec()">⏹️ PARAR</button><p id="recStatus" style="font-size:12px;color:#aaa"></p></div>
+<div id="lista"></div>
+</div>
+
+<script>
+let senhaSalva=localStorage.getItem('SENHA_EZEQUIAS')||'1234';
+function verificaSenha(){let d=document.getElementById('inputSenha').value;if(d===senhaSalva){document.getElementById('telaSenha').style.display='none';localStorage.setItem('LOGADO','sim');document.getElementById('videoFrente').play();}else{document.getElementById('msgSenha').innerHTML='<span style=color:#ff0033>Errada! É: '+senhaSalva+'</span>';}}
+if(localStorage.getItem('LOGADO')=='sim'){window.addEventListener('load',()=>{document.getElementById('telaSenha').style.display='none';});}
+function esqueci(){let n=prompt('Nova senha:');if(n&&n.length>=3){localStorage.setItem('SENHA_EZEQUIAS',n);senhaSalva=n;alert('Nova: '+n);}}
+let musicas=JSON.parse(localStorage.getItem('EZEQUIAS_FINAL')||'[]');
+function getYTId(u){let m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([^?&\/]+)/);return m?m[1]:null;}
+function save(){localStorage.setItem('EZEQUIAS_FINAL',JSON.stringify(musicas));render();}
+function addDirect(){let n=document.getElementById('n1').value||'Música';let f=document.getElementById('f1').files[0];if(!f){alert('Escolhe arquivo');return;}let r=new FileReader();r.onload=e=>{musicas.unshift({nome:n,src:e.target.result,tipo:f.type.includes('video')?'mp4':'mp3',origem:'whatsapp'});save();};r.readAsDataURL(f);}
+function addYT(tipo){let n=document.getElementById('n2').value||'YouTube';let l=document.getElementById('l2').value;let id=getYTId(l);if(!id){alert('Link inválido');return;}musicas.unshift({nome:n,src:'https://www.youtube.com/embed/'+id,tipo:tipo,origem:'youtube',link:l,ytid:id});save();}
+function addInsta(){let n=document.getElementById('n3').value||'Instagram';let l=document.getElementById('l3').value;musicas.unshift({nome:n,src:l,tipo:'mp4',origem:'instagram',link:l});save();}
+function addFace(){let n=document.getElementById('n3').value||'Facebook';let l=document.getElementById('l3').value;musicas.unshift({nome:n,src:l,tipo:'mp4',origem:'facebook',link:l});save();}
+function render(){let el=document.getElementById('lista');el.innerHTML='';musicas.forEach((m,i)=>{let player=m.origem=='youtube'?`<iframe width="100%" height="220" src="${m.src}" frameborder="0" allowfullscreen style="border-radius:10px"></iframe>` : m.tipo=='mp4'?`<video controls src="${m.src}" style="width:100%;border-radius:10px"></video>`:`<audio controls src="${m.src}" style="width:100%"></audio>`;el.innerHTML+=`<div class="card" style="border-left:5px solid #ffcc00"><b style="color:#ffcc00">${m.nome}</b> [${m.origem}]<div style="margin:10px 0">${player}</div><a href="#" onclick="musicas.splice(${i},1);save()" style="color:red">Apagar</a></div>`;});}
+let mediaRecorder,chunks=[];function startRec(){navigator.mediaDevices.getUserMedia({audio:true}).then(s=>{mediaRecorder=new MediaRecorder(s);chunks=[];mediaRecorder.ondataavailable=e=>chunks.push(e.data);mediaRecorder.onstop=()=>{let blob=new Blob(chunks,{type:'audio/mp3'});let r=new FileReader();r.onload=e=>{musicas.unshift({nome:document.getElementById('nFlow').value||'Flow',src:e.target.result,tipo:'mp3',origem:'flow'});save();};r.readAsDataURL(blob);};mediaRecorder.start();document.getElementById('recStatus').innerText='🔴 Gravando...';}).catch(()=>alert('Permita microfone'));}function stopRec(){if(mediaRecorder){mediaRecorder.stop();document.getElementById('recStatus').innerText='✅ Salvo!';}}
+render();
+document.getElementById('inputSenha').addEventListener('keypress',e=>{if(e.key==='Enter')verificaSenha();});
+</script>
+</body>
+</html>
