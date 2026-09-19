@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ezequias Dantas - Compositor</title>
+<style>
+body{margin:0;background:#000;color:#fff;font-family:Arial}
+#login{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center}
+.box{background:#111;border:2px solid #ffcc00;padding:25px;border-radius:20px;max-width:350px;width:90%;text-align:center}
+input{width:100%;padding:14px;border-radius:12px;border:1px solid #333;background:#222;color:#fff;margin:8px 0}
+.btn{background:#ffcc00;color:#000;padding:14px;border-radius:30px;font-weight:900;border:none;width:100%;margin:5px 0}
+.hero{height:85vh;background:url('IMG-20260918-WA5947.jpg') center/cover;display:flex;align-items:end}
+.hero-box{background:rgba(0,0,0,.85);padding:20px;width:100%;border-top:3px solid #ffcc00}
+.card{background:#111;padding:15px;border-radius:12px;margin:10px 0;border-left:4px solid #ffcc00}
+.music{background:#0f0f0f;padding:12px;border-radius:10px;margin:8px 0;border-left:4px solid #ffcc00}
+</style>
+</head>
+<body>
+<div id="login"><div class="box"><h2 style="color:#ffcc00">EZEQUIAS DANTAS</h2><p>Área do compositor</p><input type="password" id="s" placeholder="Sua senha"><button class="btn" onclick="if(document.getElementById('s').value=='85987334142'||document.getElementById('s').value=='DANTAS2026'){document.getElementById('login').style.display='none'}else{alert('Senha errada! Use 85987334142')}">ENTRAR</button><small>Senha: 85987334142</small></div></div>
+
+<div class="hero"><div class="hero-box"><h1 style="color:#ffcc00;margin:0">EZEQUIAS DANTAS E BANDA</h1><p>UM BOCADO DE FORRÓ - 16 MIL MÚSICAS AUTORAIS<br>📍 FORTALEZA - TERRA DA LUZ</p><a href="https://wa.me/5585987334142" style="display:block;background:#25D366;color:#fff;padding:12px;border-radius:30px;text-align:center;text-decoration:none;font-weight:900;margin-top:10px">WHATSAPP (85) 98733-4142</a></div></div>
+
+<div style="padding:15px">
+<div class="card"><h3>🎵 Colocar música da Flow Music</h3><p style="font-size:13px;color:#aaa">Grave na Flow > Exportar MP3 > Sobe no YouTube (não listado) > Cola o link aqui:</p><input id="link" placeholder="Link YouTube"><input id="tit" placeholder="Título da música"><button class="btn" onclick="addM()">+ ADICIONAR MÚSICA</button><div id="lista"></div></div>
+
+<div class="card"><h3>🎬 Vídeos</h3><input id="linkV" placeholder="Link YouTube vídeo"><button class="btn" onclick="addV()">+ ADICIONAR VÍDEO</button><div id="listaV"></div></div>
+
+<div class="card"><h3>📞 Contato Profissional</h3><p>WhatsApp: (85) 98733-4142<br>Fortaleza - CE<br>Reggae • Forró • Romântico • Vaquejada</p></div>
+</div>
+
+<script>
+let mus=JSON.parse(localStorage.getItem('mus')||'[]');function addM(){let l=document.getElementById('link').value;let t=document.getElementById('tit').value||'Nova música';if(!l){alert('Cole o link');return}mus.push({l,t});localStorage.setItem('mus',JSON.stringify(mus));renderM();document.getElementById('link').value='';document.getElementById('tit').value=''}
+function renderM(){let h='';mus.forEach(m=>{let id=m.l.includes('v=')?m.l.split('v=')[1].split('&')[0]:'';h+=`<div class='music'><b>${m.t}</b><br><iframe width='100%' height='170' src='https://www.youtube.com/embed/${id}' frameborder='0' allowfullscreen style='border-radius:10px;margin-top:6px'></iframe><br><a href='https://wa.me/5585987334142?text=Ouça: ${m.t} ${m.l}' target='_blank' style='color:#25D366'>Divulgar no WhatsApp</a></div>`});document.getElementById('lista').innerHTML=h}renderM();
+function addV(){let l=document.getElementById('linkV').value;let id=l.includes('v=')?l.split('v=')[1].split('&')[0]:l.split('/').pop();let d=document.createElement('div');d.innerHTML=`<iframe width='100%' height='190' src='https://www.youtube.com/embed/${id}' frameborder='0' allowfullscreen style='border-radius:10px;margin-top:10px'></iframe>`;document.getElementById('listaV').prepend(d);document.getElementById('linkV').value=''}
+</script>
+</body>
+</html>
